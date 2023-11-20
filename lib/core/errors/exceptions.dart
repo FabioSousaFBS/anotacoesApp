@@ -1,14 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Failure extends Equatable {}
+class ServerException extends Equatable implements Exception{  
 
-class ServerFailure extends Failure {
-  
   @override  
   List<Object?> get props => [];
 }
 
-class CacheFailure extends Failure {
+
+class CacheException extends Equatable implements Exception {
   
   @override  
   List<Object?> get props => [];
