@@ -30,8 +30,11 @@ abstract class LoginControllerBase with Store{
   @observable
   String mensagemErro = "";
 
+  @observable
+  UsuarioEntity usuario = UsuarioEntity();
+
   @computed
-  bool get dadosValidados => user.length >= 5 && senha.length >= 5;
+  bool get dadosValidados => user.length >= 5 && senha.length >= 2 && validarcaracteres() == true;
 
   @action
   void setUser(valor) => user = valor;
@@ -55,10 +58,11 @@ abstract class LoginControllerBase with Store{
       (success){
        
         UsuarioEntity usuario = success.firstWhere((element) => element.name!.toLowerCase() == user.toLowerCase());
-
+        
         if (usuario.id != "0") {
           if(usuario.password == senha){
             usuarioLogado = true;
+            this.usuario = usuario;
           }else{
             mensagemErro = "Senha incorreta!";
             usuarioLogado = false;
@@ -71,6 +75,13 @@ abstract class LoginControllerBase with Store{
       });
 
     carregando = false;
+
+  }
+
+  bool validarcaracteres(){
+    RegExp regExp = RegExp("[A-Za-z0–9]");
+
+    return regExp.hasMatch(senha);
 
   }
 

@@ -19,7 +19,9 @@ class AnotacoesDatasourceImpl implements IAnotacoesDatasource{
 
       List<AnotacoesModel> listaAux = [];
 
-      listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));
+      if (listaData != "") {
+        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromJson(i)));        
+      }
 
       return listaAux.where((e) => e.idUser == id).toList();
       
@@ -36,7 +38,9 @@ class AnotacoesDatasourceImpl implements IAnotacoesDatasource{
       var listaData = await sharedPreferences.read(ConstantesSitema.listaAnotacoes);
       List<AnotacoesModel> listaAux = [];
 
-      listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));
+      if (listaData != "") {
+        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));        
+      }
 
       if (anotacao.id == 0) {
         anotacao.id = listaAux.length + 1;
@@ -71,16 +75,18 @@ class AnotacoesDatasourceImpl implements IAnotacoesDatasource{
       var listaData = await sharedPreferences.read(ConstantesSitema.listaAnotacoes);
       List<AnotacoesModel> listaAux = [];
 
-      listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));
-     
-      int index = listaAux.indexWhere((e) => e.id == anotacao.id);
+      if (listaData != "") {
+        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));        
       
-      if(index > 0){        
-        listaAux.remove(listaAux[index]);
-        await sharedPreferences.save(ConstantesSitema.listaAnotacoes, listaAux);
-      }else{
-        throw CacheException();
-      }     
+        int index = listaAux.indexWhere((e) => e.id == anotacao.id);
+        
+        if(index > 0){        
+          listaAux.remove(listaAux[index]);
+          await sharedPreferences.save(ConstantesSitema.listaAnotacoes, listaAux);
+        }else{
+          throw CacheException();
+        }     
+      }
 
       return true;
 

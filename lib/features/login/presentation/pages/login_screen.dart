@@ -2,7 +2,7 @@ import 'package:anotacoesapp/core/estilos/estilos_constantes.dart';
 import 'package:anotacoesapp/core/util/generico.dart';
 import 'package:anotacoesapp/core/widgets/snackbar.dart';
 import 'package:anotacoesapp/features/login/presentation/controller/login_controller.dart';
-import 'package:anotacoesapp/pages/screens/anotacoes_screen.dart';
+import 'package:anotacoesapp/features/anotacoes/presentation/pages/anotacoes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -10,8 +10,6 @@ import 'package:mobx/mobx.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginTela extends StatefulWidget {
-  static const String id = 'login_screen';
-
   const LoginTela({super.key});
 
   @override
@@ -21,7 +19,6 @@ class LoginTela extends StatefulWidget {
 class _LoginTelaState extends State<LoginTela> {
   
   late LoginController controller;
-
   late List<ReactionDisposer> reactionDisposer;
 
   @override
@@ -35,7 +32,7 @@ class _LoginTelaState extends State<LoginTela> {
         (_) => controller.usuarioLogado, 
         (_) {
           if (controller.usuarioLogado) {
-            Navigator.pushNamed(context, AnotacoesTela.id);          
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AnotacoesTela(user: controller.usuario)));           
           } 
         }),      
       reaction(
@@ -50,7 +47,9 @@ class _LoginTelaState extends State<LoginTela> {
 
   @override
   void dispose() {
-    reactionDisposer.forEach((disposer) => disposer());
+    for (var disposer in reactionDisposer) {
+      disposer();
+    }
     super.dispose();
   }
 
@@ -69,8 +68,10 @@ class _LoginTelaState extends State<LoginTela> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(
-                      height: 300,
+                    Flexible(
+                      child: SizedBox(
+                        height: 300,
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 10, bottom: 5),
@@ -82,6 +83,7 @@ class _LoginTelaState extends State<LoginTela> {
                     TextField(
                       keyboardType: TextInputType.name,
                       onChanged: controller.setUser,
+                      maxLength: 20,
                       decoration: kTextFieldDecoration.copyWith(
                         prefixIcon: const Icon(Icons.person),
                       ),
@@ -101,6 +103,7 @@ class _LoginTelaState extends State<LoginTela> {
                       obscureText: true,
                       onChanged: controller.setSenha,
                       style: kTextField,
+                      maxLength: 20,
                       decoration: kTextFieldDecoration.copyWith(
                         prefixIcon: const Icon(Icons.lock),
                       ),

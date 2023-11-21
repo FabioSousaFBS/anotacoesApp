@@ -97,6 +97,22 @@ mixin _$LoginController on LoginControllerBase, Store {
     });
   }
 
+  late final _$usuarioAtom =
+      Atom(name: 'LoginControllerBase.usuario', context: context);
+
+  @override
+  UsuarioEntity get usuario {
+    _$usuarioAtom.reportRead();
+    return super.usuario;
+  }
+
+  @override
+  set usuario(UsuarioEntity value) {
+    _$usuarioAtom.reportWrite(value, super.usuario, () {
+      super.usuario = value;
+    });
+  }
+
   late final _$logarAsyncAction =
       AsyncAction('LoginControllerBase.logar', context: context);
 
@@ -138,6 +154,7 @@ senha: ${senha},
 usuarioLogado: ${usuarioLogado},
 carregando: ${carregando},
 mensagemErro: ${mensagemErro},
+usuario: ${usuario},
 dadosValidados: ${dadosValidados}
     ''';
   }
