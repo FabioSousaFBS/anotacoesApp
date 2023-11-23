@@ -1,6 +1,6 @@
 # Anotações App 📒
 
-Projeto desenvolvido seguindo conceitos de TDD Clean Architecture. Trata-se de um app para armazenar escrever, editar e salvar anotações localmente usando o SharedPreferences como ferramenta de armazenamento interno do app.
+O AnotaçõesApp é uma aplicação seguindo os princípios TDD e Clean Architecture. Com armazenamento utilizando SharedPreferences, oferece funcionalidades de login e uma tela de anotações, permitindo aos usuários criar, editar e excluir notas de forma intuitiva. A visualização é restrita por usuário, garantindo privacidade e organização para uma experiência de anotações eficiente e segura.
 
 ## Getting Started
 
