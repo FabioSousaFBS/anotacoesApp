@@ -39,7 +39,7 @@ class AnotacoesDatasourceImpl implements IAnotacoesDatasource{
       List<AnotacoesModel> listaAux = [];
 
       if (listaData != "") {
-        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));        
+        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromJson(i)));         
       }
 
       if (anotacao.id == 0) {
@@ -76,7 +76,7 @@ class AnotacoesDatasourceImpl implements IAnotacoesDatasource{
       List<AnotacoesModel> listaAux = [];
 
       if (listaData != "") {
-        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromMap(i)));        
+        listaData.forEach((i) => listaAux.add(AnotacoesModel.fromJson(i)));       
       
         int index = listaAux.indexWhere((e) => e.id == anotacao.id);
         

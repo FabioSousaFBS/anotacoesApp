@@ -57,22 +57,6 @@ mixin _$AnotacoesController on AnotacoesControllerBase, Store {
     });
   }
 
-  late final _$lstAnotacoesAtom =
-      Atom(name: 'AnotacoesControllerBase.lstAnotacoes', context: context);
-
-  @override
-  ObservableList<AnotacoesEntity> get lstAnotacoes {
-    _$lstAnotacoesAtom.reportRead();
-    return super.lstAnotacoes;
-  }
-
-  @override
-  set lstAnotacoes(ObservableList<AnotacoesEntity> value) {
-    _$lstAnotacoesAtom.reportWrite(value, super.lstAnotacoes, () {
-      super.lstAnotacoes = value;
-    });
-  }
-
   late final _$_listaAnotacoesFutureAtom = Atom(
       name: 'AnotacoesControllerBase._listaAnotacoesFuture', context: context);
 
@@ -104,14 +88,6 @@ mixin _$AnotacoesController on AnotacoesControllerBase, Store {
     _$indexSelecionadoAtom.reportWrite(value, super.indexSelecionado, () {
       super.indexSelecionado = value;
     });
-  }
-
-  late final _$obterAnotacoesAsyncAction =
-      AsyncAction('AnotacoesControllerBase.obterAnotacoes', context: context);
-
-  @override
-  Future<void> obterAnotacoes(String id) {
-    return _$obterAnotacoesAsyncAction.run(() => super.obterAnotacoes(id));
   }
 
   late final _$salvarAnotacoesAsyncAction =
@@ -152,7 +128,6 @@ mixin _$AnotacoesController on AnotacoesControllerBase, Store {
 carregando: ${carregando},
 carregandoAnotacao: ${carregandoAnotacao},
 errorMessage: ${errorMessage},
-lstAnotacoes: ${lstAnotacoes},
 indexSelecionado: ${indexSelecionado}
     ''';
   }

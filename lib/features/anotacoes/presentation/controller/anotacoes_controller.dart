@@ -28,8 +28,7 @@ abstract class AnotacoesControllerBase with Store{
 
   @observable
   String errorMessage = "";
-
-  @observable
+  
   ObservableList<AnotacoesEntity> lstAnotacoes = ObservableList();
 
   @observable
@@ -41,66 +40,33 @@ abstract class AnotacoesControllerBase with Store{
   @action
   setAnotacaoSelecionada(int index) => indexSelecionado = index;
  
-  Future<List<AnotacoesEntity>> getAnotacoes(String id) async {
+  Future<void> getAnotacoes(String id) async {
     
     var result = await usecaseListaAnotacoes.call(id);
 
     result.fold(
       (error) => throw Exception(error), 
       (success){
-        return success;
+        lstAnotacoes.clear();        
+        lstAnotacoes.addAll(success);        
       }
     );
 
     throw Exception();
 
   }
-
-  Future<void> carregarLista(String id) async {
-
-    try {
-      errorMessage = '';
-      carregando = true; 
-
-      List<AnotacoesEntity> listaAux = [];
-
-      _listaAnotacoesFuture = ObservableFuture(getAnotacoes(id));
-      
-      listaAux = await _listaAnotacoesFuture ?? []; 
-
-      
-      do{
-        if(_listaAnotacoesFuture!.status == FutureStatus.fulfilled) {          
-          if(errorMessage == '') {            
-            lstAnotacoes.clear();      
-            lstAnotacoes.addAll(listaAux);           
-            
-            carregando = false;
-          }
-        }
-      } while (carregando != false || errorMessage != '');
-    } catch (e) {
-      carregando = false;      
-      errorMessage = e.toString();
-    }
-  }
-
-  @action 
-  Future<void> obterAnotacoes(String id) async {
-    await carregarLista(id);
-  }
+   
 
   @action 
   Future<void> salvarAnotacoes(AnotacoesEntity anotacao) async {
     try {
+      errorMessage = "";
       await usecaseSalvarListaAnotacoes.call(anotacao);
 
-      await carregarLista(anotacao.idUser!);
-
-      
+      await getAnotacoes(anotacao.idUser!);     
       
     } catch (e) {      
-      errorMessage = e.toString();
+      errorMessage = "Houve um problema ao Salvar";
     }   
   }
 
@@ -108,11 +74,12 @@ abstract class AnotacoesControllerBase with Store{
   @action 
   Future<void> removerAnotacoes(AnotacoesEntity anotacao) async {
     try {      
-      await usecaseSalvarListaAnotacoes.call(anotacao);
-      await carregarLista(anotacao.idUser!);
+      errorMessage = "";
+      await usecaseRemoveListaAnotacoes.call(anotacao);
+      //await getAnotacoes(anotacao.idUser!);
       
     } catch (e) {      
-      errorMessage = e.toString();
+      errorMessage = "Houve um problema ao remover";
     }   
   } 
 

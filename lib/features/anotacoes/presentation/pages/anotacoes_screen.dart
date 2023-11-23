@@ -44,6 +44,7 @@ class _AnotacoesTelaState extends State<AnotacoesTela> {
         (_) {
           if (controller.errorMessage.isNotEmpty) {
             showSnackBarException(context, controller.errorMessage);
+            controller.errorMessage = "";
           }
         }),
       ];
@@ -143,7 +144,7 @@ class _AnotacoesTelaState extends State<AnotacoesTela> {
                                                       await controller.removerAnotacoes(controller.lstAnotacoes[index]);
                                                       digitacaoController.text = "";                                                    
                                                     }
-                                                    foco.requestFocus(textoFocusNode);                                              
+                                                    foco.requestFocus(textoFocusNode);
                                                   },
                                                   icon: const Icon(
                                                     Icons.cancel,
